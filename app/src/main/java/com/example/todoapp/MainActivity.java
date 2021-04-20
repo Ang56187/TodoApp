@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
 
     private ImageButton floatingButton;
+    private RecyclerView todoRecyclerView;
+
 
     private RequestQueue queue;
 
@@ -38,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("focus","fo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //views in the activity
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        todoRecyclerView = findViewById(R.id.recycler_view);
         floatingButton = findViewById(R.id.floating_button);
 
         // Instantiate the RequestQueue.
@@ -52,22 +55,39 @@ public class MainActivity extends AppCompatActivity {
 
         //configure recycler view
         recyclerAdapter = new RecyclerAdapter(todoList,this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+        todoRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(recyclerAdapter);
+        todoRecyclerView.setAdapter(recyclerAdapter);
 
         floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int requestCode = 1;
                 Intent intent = new Intent(getApplicationContext(), AddNoteActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,requestCode);
             }
         });
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == 1  && resultCode  == RESULT_OK){
+            String title = data.getExtras().getString("title");
+            int userId = 1;
+            int id = todoList.size()+1;
+            boolean completed = false;
+            todoList.add(new Note(userId,id,title,completed));
 
+            recyclerAdapter.notifyDataSetChanged();
+
+            todoRecyclerView.smoothScrollToPosition(recyclerAdapter.getItemCount()-1);
+        }
+    }
+
+    //sends GET request
     private void getAPI() {
 
         String url ="https://jsonplaceholder.typicode.com/users/1/todos";
@@ -87,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                               boolean completed = jsonObj.getBoolean("completed");
 
                               todoList.add(new Note(userId,id,title,completed));
-                               Log.d("ddd","Size:"+todoList.size());
                            }
                             recyclerAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
