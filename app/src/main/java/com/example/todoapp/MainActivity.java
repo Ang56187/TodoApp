@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("focus","fo");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(this);
 
+        //initializes array list with response of GET api
         getAPI();
 
         //configure recycler view
@@ -70,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //need to handle array list changes here, after added to do from the AddNoteActivity/EditNoteActivity
+    //to refresh the recycler view within this activity
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
+        //for adding todos
         if(requestCode == 1  && resultCode  == RESULT_OK){
             String title = data.getExtras().getString("title");
             int userId = 1;
@@ -83,14 +85,30 @@ public class MainActivity extends AppCompatActivity {
 
             recyclerAdapter.notifyDataSetChanged();
 
-            todoRecyclerView.smoothScrollToPosition(recyclerAdapter.getItemCount()-1);
+        }
+        //for editing todos
+        else if(requestCode == 2  && resultCode  == RESULT_OK){
+            String title = data.getExtras().getString("title");
+            int id = data.getExtras().getInt("id");
+            boolean completed = data.getExtras().getBoolean("completed");
+
+            for(Note n:todoList){
+                if(n.getId() == id){
+                    n.setTitle(title);
+                    n.setCompleted(completed);
+                }
+            }
+            recyclerAdapter.notifyDataSetChanged();
+
+            todoRecyclerView.smoothScrollToPosition(id-1);
+
         }
     }
 
     //sends GET request
     private void getAPI() {
 
-        String url ="https://jsonplaceholder.typicode.com/users/1/todos";
+        String url ="https://jsonplaceholder.typicode.com/todos";
         StringRequest request = new StringRequest (Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
@@ -106,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                               String title = jsonObj.getString("title");
                               boolean completed = jsonObj.getBoolean("completed");
 
+                              //saved as Note object
                               todoList.add(new Note(userId,id,title,completed));
                            }
                             recyclerAdapter.notifyDataSetChanged();

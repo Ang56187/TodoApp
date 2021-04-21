@@ -38,7 +38,6 @@ public class AddNoteActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     //back button for action bar
