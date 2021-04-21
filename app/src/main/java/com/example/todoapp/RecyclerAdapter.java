@@ -111,6 +111,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     }
 
+    public void updateList(ArrayList<Note> list){
+        noteDataset = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount(){
         return noteDataset.size();

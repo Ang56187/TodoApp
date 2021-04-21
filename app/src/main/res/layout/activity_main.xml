@@ -14,24 +14,38 @@
         android:paddingBottom="100dp"
         android:clipToPadding="false"/>
 
-    <ImageButton
-        android:id="@+id/floating_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/circular_button"
-        app:srcCompat="@drawable/ic_add_white_48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        tools:ignore="VectorDrawableCompat" />
 
-    <!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Hello World!"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:hint="Search title"
+            android:elevation="6dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/circular_white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageButton
+            android:id="@+id/floating_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/circular_button"
+            app:srcCompat="@drawable/ic_add_white_48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            tools:ignore="VectorDrawableCompat" />
+    </LinearLayout>
 
 </RelativeLayout>

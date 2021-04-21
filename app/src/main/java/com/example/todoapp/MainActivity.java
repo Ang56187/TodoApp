@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton floatingButton;
     private RecyclerView todoRecyclerView;
+    private EditText searchEditText;
 
 
     private RequestQueue queue;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //views in the activity
         todoRecyclerView = findViewById(R.id.recycler_view);
         floatingButton = findViewById(R.id.floating_button);
+        searchEditText = findViewById(R.id.search_edit_text);
 
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(this);
@@ -59,12 +64,31 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager.VERTICAL, false));
         todoRecyclerView.setAdapter(recyclerAdapter);
 
+        //configure add button
         floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int requestCode = 1;
                 Intent intent = new Intent(getApplicationContext(), AddNoteActivity.class);
                 startActivityForResult(intent,requestCode);
+            }
+        });
+
+        //configure search bar
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchFilter(s.toString());
             }
         });
 
@@ -105,9 +129,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void searchFilter(String searchText){
+        ArrayList<Note> tempList = new ArrayList<>();
+        for(Note n: todoList){
+            if(n.getTitle().contains(searchText)){
+                tempList.add(n);
+            }
+        }
+        recyclerAdapter.updateList(tempList);
+    }
+
     //sends GET request
     private void getAPI() {
-
         String url ="https://jsonplaceholder.typicode.com/todos";
         StringRequest request = new StringRequest (Request.Method.GET,
                 url,
