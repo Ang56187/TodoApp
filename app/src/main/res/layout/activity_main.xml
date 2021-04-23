@@ -7,45 +7,87 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="100dp"
-        android:clipToPadding="false"/>
-
+        android:clipToPadding="false"
+        android:paddingBottom="100dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="4dp"
-        android:weightSum="1">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:hint="Search title"
-            android:elevation="6dp"
-            android:layout_weight="1"
-            android:paddingHorizontal="20dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/circular_white"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"/>
+        <RadioGroup
+            android:id="@+id/radio_group_filter"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingHorizontal="4dp"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:id="@+id/radio_both"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Both"/>
+            <RadioButton
+                android:id="@+id/radio_completed"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"/>
+            <RadioButton
+                android:id="@+id/radio_yet_completed"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yet completed"/>
+        </RadioGroup>
 
-        <ImageButton
-            android:id="@+id/floating_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/circular_button"
-            app:srcCompat="@drawable/ic_add_white_48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            tools:ignore="VectorDrawableCompat" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="4dp"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:hint="Search title"
+                android:elevation="6dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="20dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/circular_white"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageButton
+                android:id="@+id/floating_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/circular_button"
+                app:srcCompat="@drawable/ic_add_white_48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                tools:ignore="VectorDrawableCompat" />
+        </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
