@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //when scroll, checks if needed to load more todos/items
+        //when user scroll down to last element, it will show more todos from arraylist
         todoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
              @Override
              public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -260,8 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
     //sends GET request
     private void getAPI() {
-        //it will get all of the todos as pagination doesnt work properly with jsonplaceholder
-        //https://jsonplaceholder.typicode.com/todos?_limit=20 does not work as intended
+        //it will get all of the todos,pagination to be done locally
         //therefore, all todos will be kept in 'todoList' arraylist variable
         String url ="https://jsonplaceholder.typicode.com/todos";
         StringRequest request = new StringRequest (Request.Method.GET,
@@ -283,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
                               todoList.add(new Note(userId,id,title,completed));
                            }
                             //to only show first 20 elements in recycler view,
-                            //when user scroll down to last element, it will show more todos from arraylist
                             recyclerAdapter.updateList(new ArrayList<>(todoList.subList(0,19)));
                             recyclerAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
